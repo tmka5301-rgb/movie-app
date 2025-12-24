@@ -1,20 +1,14 @@
 import React from "react";
-
-export type Movie = {
-  title: string;
-  star: string;
-  rating: number;
-  image: string;
-};
-const sampleMovie: Movie[] = [
-  {
-    title: "string",
-    rating: 9.0,
-    star: "",
-    image: "./wicked.jpg",
-  },
-];
+import { UpComing } from "./UpComing";
+import { Popular } from "./Popular";
+import { TopRated } from "./TopRated";
 
 export const MovieCard = () => {
-  return <div></div>;
+  return (
+    <div>
+      <UpComing />
+      <Popular />
+      <TopRated />
+    </div>
+  );
 };
