@@ -5,7 +5,7 @@ import { TopRated } from "./TopRated";
 
 export const MovieCard = () => {
   return (
-    <div>
+    <div className="">
       <UpComing />
       <Popular />
       <TopRated />

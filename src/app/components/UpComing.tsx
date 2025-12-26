@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 export type Movie = {
   title: string;
   star: string;
@@ -31,14 +33,16 @@ export const UpComing = async () => {
   } = await movieAPI();
   return (
     <div className="w-360 pl-20 pr-20 pb-10 pt-10">
-      <div className="flex justify-between ">
+      <div className="flex justify-between pb-10 ">
         <p className="font-bold text-2xl">Upcoming</p>
-        <button className="font-semibold">See more</button>
+        <Link href="/category/upcoming  ">
+          <button>See more</button>
+        </Link>
       </div>
-      <div className="flex flex-wrap justify-center gap-4 ">
+      <div className="flex flex-wrap justify-center gap-4 rounded-md">
         {upComingMoviesResults
           .map((info) => (
-            <div key={info.title}>
+            <div key={info.title} className="bg-gray-200 rounded-md">
               <img
                 src={`https://image.tmdb.org/t/p/w500${info.poster_path}`}
                 alt=""
