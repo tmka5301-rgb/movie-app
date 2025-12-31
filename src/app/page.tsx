@@ -10,6 +10,7 @@ export type MovieHome = {
   poster_path: string;
   description: string;
   backdrop_path: string;
+  overview: string;
 };
 const carouselAPI = async () => {
   const responseNowPlaying = await fetch(

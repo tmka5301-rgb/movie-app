@@ -32,7 +32,7 @@ export const UpComing = async () => {
     upComingMoviesResults: Movie[];
   } = await movieAPI();
   return (
-    <div className="w-360 pl-20 pr-20 pb-10 pt-10">
+    <div className="pl-20 pr-20 pb-10 pt-10">
       <div className="flex justify-between pb-10 ">
         <p className="font-bold text-2xl">Upcoming</p>
         <Link href="/category/upcoming  ">
@@ -46,7 +46,7 @@ export const UpComing = async () => {
               <img
                 src={`https://image.tmdb.org/t/p/w500${info.poster_path}`}
                 alt=""
-                className="h-85 w-[229.73px]"
+                className="h-85 w-[229.73px] rounded-md"
               />
               <p className="flex items-center">
                 <img

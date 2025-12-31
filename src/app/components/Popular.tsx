@@ -32,7 +32,7 @@ export const Popular = async () => {
     popularMoviesResults: Movie[];
   } = await movieAPI();
   return (
-    <div className="w-360 pl-20 pr-20 pb-10 pt-10 ">
+    <div className="pl-20 pr-20 pb-10 pt-10 ">
       <div className="flex justify-between pb-10">
         <p className="font-bold text-2xl">Popular</p>
         <Link href="/category/popular">
@@ -65,4 +65,3 @@ export const Popular = async () => {
     </div>
   );
 };
-// {`/category/${category}`}

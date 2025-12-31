@@ -13,7 +13,7 @@ import { ButtonGroup } from "@/components/ui/button-group";
 
 export const Header = () => {
   return (
-    <div className="flex bg-white justify-between pl-10 pr-10 text-black pt-2 pb-2 w-360 ">
+    <div className="flex bg-white justify-between pl-10 pr-10 text-black pt-2 pb-2  ">
       <div className="font-bold text-base text-indigo-700 gap-2 flex">
         <img
           className="h-6 w-6 flex text-center"
