@@ -1,40 +1,41 @@
-import { Scroll } from "./about/components/Scroll";
-import { MovieCard } from "./components/MovieCard";
+import { Movies } from "@/components/Movies";
+import { Inter } from "next/font/google";
 
-import React from "react";
+const inter = Inter({
+  subsets: ["latin"],
+  variable: "--font-inter",
+});
 
-export type MovieHome = {
-  title: string;
-  star: string;
-  vote_average: number;
-  poster_path: string;
-  description: string;
-  backdrop_path: string;
-  overview: string;
-};
-const carouselAPI = async () => {
-  const responseNowPlaying = await fetch(
-    "https://api.themoviedb.org/3/movie/now_playing?language=en-US&page=1",
+export const movieAPI = async (category: string, page: string = "1") => {
+  const response = await fetch(
+    `https://api.themoviedb.org/3/movie/${category}?page=${page}`,
     {
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${process.env.NEXT_PUBLIC_MY_API_KEY}`,
+        authorization: `bearer ${process.env.NEXT_PUBLIC_TMDB_KEY}`,
       },
-    }
+    },
   );
-  const nowPlayingMovies = await responseNowPlaying.json();
-  const nowPlayingMoviesResults = nowPlayingMovies.results as MovieHome[];
-
-  return { nowPlayingMoviesResults };
+  const data = await response.json();
+  return data;
 };
 
-const Home = async () => {
-  const { nowPlayingMoviesResults } = await carouselAPI();
+export default async function Home() {
+  const { results: upcomingMovie } = await movieAPI("upcoming");
+  const { results: popularMovie } = await movieAPI("popular");
+  const { results: topRatedMovie } = await movieAPI("top_rated");
+  const { results: nowPlayingMovie } = await movieAPI("now_playing");
+
   return (
-    <div className="">
-      <Scroll movies={nowPlayingMoviesResults.slice(0, 5)} />
-      <MovieCard />
+    <div className="flex flex-col items-center">
+      <div className={` w-screen ${inter.variable}`}>
+        <Movies
+          nowPlayingMovie={nowPlayingMovie}
+          popularMovie={popularMovie}
+          upcomingMovie={upcomingMovie}
+          topRatedMovie={topRatedMovie}
+        />
+      </div>
     </div>
   );
-};
-export default Home;
+}

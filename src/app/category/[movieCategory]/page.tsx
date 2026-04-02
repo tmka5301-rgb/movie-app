@@ -1,94 +1,58 @@
-import { DEFAULT_MAX_VERSION } from "tls";
+import { movieAPI } from "@/app/page";
+import { Results } from "@/components/Movies";
+import { DynamicPagination } from "@/components/PageInation";
+import Link from "next/link";
 
-export type Movie = {
-  title: string;
-  star: string;
-  vote_average: number;
-  poster_path: string;
-};
-const movieFromTMDB = async (movieCategory: string) => {
-  const responseMovies = await fetch(
-    `https://api.themoviedb.org/3/movie/${movieCategory}?language=en-US&page=1`,
-    {
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${process.env.NEXT_PUBLIC_MY_API_KEY}`,
-      },
-    }
-  );
-
-  const pageTwoAPIMovies = await responseMovies.json();
-  const pageTwoAPIMoviesResults = pageTwoAPIMovies.results;
-  return { pageTwoAPIMoviesResults };
-};
-
-export default async function Page({
+export default async function category({
   params,
+  searchParams,
 }: {
   params: Promise<{ movieCategory: string }>;
+  searchParams: Promise<{ page: string }>;
 }) {
   const { movieCategory } = await params;
+  const currentPage = (await searchParams).page;
 
-  const moviesPage2 = await movieFromTMDB(movieCategory);
-  const { pageTwoAPIMoviesResults }: { pageTwoAPIMoviesResults: Movie[] } =
-    await movieFromTMDB(movieCategory);
-  console.log(moviesPage2);
+  const movies: Results = await movieAPI(movieCategory, currentPage);
+  console.log(movies?.total_pages);
+
+  const title = movieCategory.includes("popular")
+    ? "Popular"
+    : movieCategory.includes("upcoming")
+      ? "Upcoming"
+      : "Top rated";
+
   return (
-    <div className="flex flex-wrap justify-center gap-4 md:grid-cols-5 w-360 pb-20 pt-10">
-      {pageTwoAPIMoviesResults
-        .map((data) => (
-          <div key={data.title} className="bg-gray-200 rounded-md">
-            <img
-              src={`https://image.tmdb.org/t/p/w500${data.poster_path}`}
-              alt=""
-              className="h-85 w-[229.73px] rounded-md"
-            />
-            <p className="flex items-center">
+    <div className="m-5  mb-12.5 gap-8 flex flex-col md:mx-30 mx-0">
+      <p className="text-[24px] font-semibold">{title}</p>
+      <div className="grid grid-cols-2 md:grid-cols-5 gap-5 md:gap-8 ">
+        {movies.results.map((films) => {
+          return (
+            <Link
+              href={`/movieDetail?query=${films.id}`}
+              key={films.id}
+              className="rounded-lg overflow-hidden shadow-lg "
+            >
               <img
-                className="h-4 w-4 flex justify-center items-center "
-                src="./star.png"
-                alt=""
+                className="object-cover object-center"
+                src={` https://image.tmdb.org/t/p/original${films.poster_path}`}
               />
-              {data.vote_average.toFixed(1)}
-              /10
-            </p>
-            <p className="w-57">{data.title}</p>
-          </div>
-        ))
-        .slice(0, 20)}
+              <div className="bg-gray-200 h-19 md:h-22.5 p-2">
+                <div className="flex">
+                  <p className="text-[12px] md:text-[14px] flex items-center]">
+                    ⭐️{films.vote_average}
+                  </p>
+                  <p className="opacity-50 text-[12px] flex items-center">
+                    /10
+                  </p>
+                </div>
+                <p className="">{films.original_title}</p>
+              </div>
+            </Link>
+          );
+        })}
+      </div>
+      <DynamicPagination />
     </div>
-    // <div className="md:grid md:grid-cols-5  grid- grid-cols-2 gap-8 md:space-x-8 pb-8 ">
-    //   {pageTwoAPIMoviesResults
-    //     .map((data) => {
-    //       return (
-    //         <div
-    //           key={data.title}
-    //           className="md:grid md:grid-cols-5 w-[157.5px] h-[309.1px] md:w-[229.73px] md:h-109.75 rounded-2xl space-y-1"
-    //         >
-    //           <img
-    //             src={` https://image.tmdb.org/t/p/original${data.poster_path}`}
-    //             alt=""
-    //             className="rounded-md"
-    //           />
-    //           <div className="md:flex md:flex-col pl-2">
-    //             <p className="md:flex md:items-center  md:w-[213.73px] md:h-5.75">
-    //               <img
-    //                 src="./star.png"
-    //                 alt=""
-    //                 className="pr-1 pb-1.25 h-85 w-[229.73px]"
-    //               />
-    //               {data.vote_average.toFixed(1)}/10
-    //             </p>
-    //           </div>
-    //           <div className="flex flex-col pl-2">
-    //             <p className="text-sm md:text-lg md:w-[213.73pz] md:h-14">
-    //               {data.title}
-    //             </p>
-    //           </div>
-    //         </div>
-    //       );
-    //     })
-    //     .slice(0, 20)}
-    // </div>
   );
 }
