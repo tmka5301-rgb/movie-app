@@ -3,7 +3,7 @@ import { Badge } from "@/components/ui/badge";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import useSWR from "swr";
-import { UtubeBut } from "./UtubeBut";
+import { YoutubeButton } from "./YoutubeBut";
 import MovieTeams from "./MovieTeams";
 import Similiar from "./Similiar";
 import { fetcherInput } from "@/utils/fetcherInput";
@@ -71,7 +71,7 @@ export default function RespoDetail() {
                 />
                 <div className="bg-black opacity-50 w-full h-full z-10 absolute top-0"></div>
                 <div className="absolute bottom-6 z-20 left-6 ">
-                  {trailerKey && <UtubeBut movieId={movieData.id} />}
+                  {trailerKey && <YoutubeButton movieId={movieData.id} />}
                 </div>
               </div>
             </div>

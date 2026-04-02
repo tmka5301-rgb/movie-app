@@ -11,7 +11,7 @@ import {
 } from "@/components/ui/carousel";
 import { Movie } from "./Movies";
 import Link from "next/link";
-import { UtubeBut } from "./UtubeBut";
+import { YoutubeButton } from "./YoutubeBut";
 
 type CarouselPluginProps = {
   results: Movie[];
@@ -99,7 +99,7 @@ export const CarouselPlugin = ({ results }: CarouselPluginProps) => {
                 </div>
               </Link>
               <div className="md:absolute z-50 md:top-[58%] md:left-[8%] static mx-5 flex justify-start items-end">
-                <UtubeBut movieId={movie.id} />
+                <YoutubeButton movieId={movie.id} />
               </div>
             </CarouselItem>
           );

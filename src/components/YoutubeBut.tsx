@@ -14,11 +14,11 @@ import { usePathname } from "next/navigation";
 import YouTube from "react-youtube";
 import useSWR from "swr";
 
-type UtubeButProps = {
+type YoutubeButtonProps = {
   movieId: number;
 };
 
-export function UtubeBut({ movieId }: UtubeButProps) {
+export function YoutubeButton({ movieId }: YoutubeButtonProps) {
   const { data, error, isLoading } = useSWR(
     `${process.env.NEXT_PUBLIC_TMDB_BASE_URL}/movie/${movieId}/videos?language=en-US`,
     fetcherInput,
